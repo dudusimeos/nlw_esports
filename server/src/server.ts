@@ -1,5 +1,4 @@
 import express, { response } from 'express'
-import cors from 'cors' 
 // ECMASCRIPT MODULES = importação de forma nativa
 import {PrismaClient} from '@prisma/client'
 import { PrismaClientValidationError } from '@prisma/client/runtime';
@@ -8,11 +7,12 @@ import { convertMinutesToHourString } from './utils/conver-minutes-to-hour-strin
 
 
 
+
 const app = express()
 app.use(express.json())
 const prisma = new PrismaClient()
 
-app.use(cors()) 
+
 // O CORS É UMA BIBLIOTECA QUE CONFIGURA QUAL FRONTEND TERÁ ACESSO AO BACKEND
 app.get('/games', async (request, response) => {
     const games = await prisma.game.findMany({
@@ -68,7 +68,7 @@ app.get('/games/:id/ads', async(request,response) => {
         }
     })
         
-    return response.json(ads.map(ad=> {
+    return response.json(ads.map((ad: any)=> {
         return{
             ...ad,
             weekDays: ad.weekDays.split(','),
